@@ -44,7 +44,7 @@ export const IndicTransliterate = ({
   ...rest
 }: IndicTransliterateProps): JSX.Element => {
   const [left, setLeft] = useState(0);
-  const [top, setTop] = useState(0);
+  const [top, setTop] = useState(100);
   const [selection, setSelection] = useState<number>(0);
   const [matchStart, setMatchStart] = useState(-1);
   const [matchEnd, setMatchEnd] = useState(-1);
@@ -345,7 +345,6 @@ export const IndicTransliterate = ({
       style={{
         ...containerStyles,
         position: "relative",
-        top: "-80px",
       }}
       className={containerClassName}
     >
