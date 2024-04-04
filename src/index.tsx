@@ -390,7 +390,7 @@ export const IndicTransliterate = ({
            */}
           {Array.from(new Set(options)).map((item, index) => (
             <li
-              style={index === selection ? { cursor: "pointer",padding: "10px",minWidth: "100px",backgroundColor: "#65c3d7", color:"#fff", position: "absolute", top:"-80x"} : { cursor: "pointer",padding: "10px",minWidth: "100px",backgroundColor: "#fff", position: "absolute", top:"-80x"} }
+              style={index === selection ? { cursor: "pointer",padding: "10px",minWidth: "100px",backgroundColor: "#65c3d7", color:"#fff", position: "absolute", top:"-40px"} : { cursor: "pointer",padding: "10px",minWidth: "100px",backgroundColor: "#fff", position: "absolute", top:"-40px"} }
               onMouseEnter={() => {
                 setSelection(index);
               }}
