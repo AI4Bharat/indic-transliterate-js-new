@@ -44,7 +44,7 @@ export const IndicTransliterate = ({
   ...rest
 }: IndicTransliterateProps): JSX.Element => {
   const [left, setLeft] = useState(0);
-  const [top, setTop] = useState(100);
+  const [top, setTop] = useState(0);
   const [selection, setSelection] = useState<number>(0);
   const [matchStart, setMatchStart] = useState(-1);
   const [matchEnd, setMatchEnd] = useState(-1);
@@ -390,7 +390,7 @@ export const IndicTransliterate = ({
            */}
           {Array.from(new Set(options)).map((item, index) => (
             <li
-              style={index === selection ? { cursor: "pointer",padding: "10px",minWidth: "100px",backgroundColor: "#65c3d7", color:"#fff"} : { cursor: "pointer",padding: "10px",minWidth: "100px",backgroundColor: "#fff"} }
+              style={index === selection ? { cursor: "pointer",padding: "10px",minWidth: "100px",backgroundColor: "#65c3d7", color:"#fff", position: "absolute", top:"-80x"} : { cursor: "pointer",padding: "10px",minWidth: "100px",backgroundColor: "#fff", position: "absolute", top:"-80x"} }
               onMouseEnter={() => {
                 setSelection(index);
               }}
