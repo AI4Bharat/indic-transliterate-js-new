@@ -345,6 +345,7 @@ export const IndicTransliterate = ({
       style={{
         ...containerStyles,
         position: "relative",
+        top: "-80px",
       }}
       className={containerClassName}
     >
