@@ -11,6 +11,8 @@ import { getTransliterationLanguages } from "./util/getTransliterationLanguages"
 
 const KEY_UP = "ArrowUp";
 const KEY_DOWN = "ArrowDown";
+const KEY_LEFT = "ArrowLeft";
+const KEY_RIGHT = "ArrowRight";
 const KEY_ESCAPE = "Escape";
 
 const OPTION_LIST_Y_OFFSET = 10;
@@ -41,8 +43,15 @@ export const IndicTransliterate = ({
   insertCurrentSelectionOnBlur = true,
   showCurrentWordAsLastSuggestion = true,
   enabled = true,
+  horizontalView = false,
   ...rest
 }: IndicTransliterateProps): JSX.Element => {
+  interface LogJson {
+    keystrokes: any;
+    results: any;
+    opted: any;
+    created_at: any;
+  }
   const [left, setLeft] = useState(0);
   const [top, setTop] = useState(0);
   const [selection, setSelection] = useState<number>(0);
@@ -53,7 +62,7 @@ export const IndicTransliterate = ({
   const [direction, setDirection] = useState("ltr");
   const [googleFont, setGoogleFont] = useState<string | null>(null);
   const [options, setOptions] = useState<string[]>([]);
-  const [logJsonArray, setLogJsonArray] = useState([]);
+  const [logJsonArray, setLogJsonArray] = useState<LogJson[]>([]);
   const [numSpaces, setNumSpaces] = useState(0);
   const [parentUuid, setParentUuid] = useState(Math.random().toString(36).substr(2, 9));
   const [uuid, setUuid] = useState(Math.random().toString(36).substr(2, 9));
@@ -74,7 +83,7 @@ export const IndicTransliterate = ({
     setOptions([]);
   };
 
-  const handleSelection = (index: number, triggerKey = " ") => {
+  const handleSelection = (index: number) => {
     const currentString = value;
     // create a new string with the currently typed word
     // replaced with the word in transliterated language
@@ -86,7 +95,7 @@ export const IndicTransliterate = ({
 
     if(logJsonArray.length){
       let lastLogJson = logJsonArray[logJsonArray.length-1];
-      let logJson = {
+      let logJson:LogJson = {
         keystrokes: lastLogJson.keystrokes,
         results: lastLogJson.results,
         opted: options[index],
@@ -132,7 +141,7 @@ export const IndicTransliterate = ({
       lang,
     });
     setOptions(data ?? []);
-    let logJson = {
+    let logJson:LogJson = {
               keystrokes: wholeText,
               results: data,
               opted: "",
@@ -175,7 +184,7 @@ export const IndicTransliterate = ({
       setSubStrLength(value.length-2);
       setNumSpaces(0);
       setRestart(true);
-      fetch("https://backend.dev.shoonya.ai4bharat.org/logs/transliteration_selection/", {
+      fetch("https://backend.shoonya.ai4bharat.org/logs/transliteration_selection/", {
         method: "POST",
         body: JSON.stringify(finalJson),
         headers: {
@@ -262,7 +271,7 @@ export const IndicTransliterate = ({
     if (helperVisible) {
       if (triggerKeys.includes(event.key)) {
         event.preventDefault();
-        handleSelection(selection, event.key);
+        handleSelection(selection);
       } else {
         switch (event.key) {
           case KEY_ESCAPE:
@@ -274,6 +283,14 @@ export const IndicTransliterate = ({
             setSelection((options.length + selection - 1) % options.length);
             break;
           case KEY_DOWN:
+            event.preventDefault();
+            setSelection((selection + 1) % options.length);
+            break;
+          case KEY_LEFT:
+            event.preventDefault();
+            setSelection((options.length + selection - 1) % options.length);
+            break;
+          case KEY_RIGHT:
             event.preventDefault();
             setSelection((selection + 1) % options.length);
             break;
@@ -369,11 +386,11 @@ export const IndicTransliterate = ({
             backgroundColor : "#fff",
             border : "1px solid rgba(0, 0, 0, 0.15)",
             boxShadow : "0 6px 12px rgba(0, 0, 0, 0.175)",
-            display: "block",
+            display: horizontalView ? "flex" : "block",
             fontSize: "14px",
             listStyle: "none",
             padding: "1px",
-            textAlign: "left",
+            textAlign: "center",
             zIndex: 20000,
             left: `${left + offsetX}px`,
             top: `${top + offsetY}px`,
